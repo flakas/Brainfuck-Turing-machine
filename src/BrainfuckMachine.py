@@ -64,6 +64,8 @@ class BrainfuckMachine:
     def getPointer(self):
         """Gets a single character of keyboard input and stores it as ord value"""
         c = raw_input("Enter a character: ")
+        if len(c) <= 0: # Beware of being crashed
+            c = ' '
         self.tape[self.cellPointer] = ord(c[0]) #Use only a single character
         return
 
