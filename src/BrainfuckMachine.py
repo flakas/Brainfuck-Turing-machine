@@ -95,6 +95,5 @@ class BrainfuckMachine:
                     level -= 1
                 position += direction
 
-        print '(' + str(position) + ' - ' + str(self.tape[self.cellPointer]) + ')',
         
         return position
