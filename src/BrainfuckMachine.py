@@ -2,23 +2,27 @@ class BrainfuckMachine:
     """Brainfuck interpreter"""
 
     def __init__(self):
-        self.tape = [0 for i in range(30000)]
+        self.tape = [0 for i in range(30000)] #Wiki recommends at least 30k cells
         self.cellPointer = 0
         self.codePointer = 0
         self.code = ''
         self.loopTree = []
 
     def setCode(self, code):
+        """Pass code to the object"""
         self.code = code
         self.codeLength = len(self.code) - 1
 
     def run(self):
+        """Execute whole brainfuck code string"""
         self.codePointer = 0
         while self.codePointer < self.codeLength:
             self.doStep()
         return
     
     def doStep(self):
+        """Parses current character, executes required command. If not 
+        a command, skips the character"""
         c = self.code[self.codePointer]
         if(c == '+'):
             self.changeValue(1)
@@ -48,19 +52,23 @@ class BrainfuckMachine:
         return
 
     def changeValue(self, action):
+        """Increases or decreases current cell's value"""
         self.tape[self.cellPointer] += action
         return
 
     def printPointer(self):
+        """Prints current cell to the screen"""
         print chr(self.tape[self.cellPointer]),
         return
 
     def getPointer(self):
+        """Gets a single character of keyboard input and stores it as ord value"""
         c = raw_input("Enter a character: ")
-        self.tape[self.cellPointer] = ord(c[0])
+        self.tape[self.cellPointer] = ord(c[0]) #Use only a single character
         return
 
     def loop(self):
+        """Do a single loop step"""
         if(self.code[self.codePointer] == '['):
             if(self.tape[self.cellPointer] == 0):
                 self.codePointer = self.findMatchingBrace()
@@ -74,6 +82,7 @@ class BrainfuckMachine:
         return
 
     def findMatchingBrace(self):
+        """Finds a matching brace on the same level and returns it's position"""
         position = self.codePointer
         level = 0
         if(self.code[position] == ']'):
