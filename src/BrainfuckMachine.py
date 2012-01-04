@@ -1,4 +1,3 @@
-
 class BrainfuckMachine:
     """Brainfuck interpreter"""
 
@@ -7,6 +6,7 @@ class BrainfuckMachine:
         self.cellPointer = 0
         self.codePointer = 0
         self.code = ''
+        self.loopTree = []
 
     def setCode(self, code):
         self.code = code
@@ -32,6 +32,8 @@ class BrainfuckMachine:
             self.printPointer()
         elif(c == ','):
             self.getPointer()
+        elif(c in ['[', ']']):
+            self.loop()
         self.moveCodePointer(1)
         return 
 
@@ -50,7 +52,7 @@ class BrainfuckMachine:
         return
 
     def printPointer(self):
-        print self.tape[self.cellPointer],
+        print chr(self.tape[self.cellPointer]),
         return
 
     def getPointer(self):
@@ -59,4 +61,40 @@ class BrainfuckMachine:
         return
 
     def loop(self):
+        if(self.code[self.codePointer] == '['):
+            if(self.tape[self.cellPointer] == 0):
+                self.codePointer = self.findMatchingBrace()
+            elif(self.tape[self.cellPointer] != 0):
+                return
+        elif(self.code[self.codePointer] == ']'):
+            if(self.tape[self.cellPointer] == 0):
+                return
+            elif(self.tape[self.cellPointer] != 0):
+                self.codePointer = self.findMatchingBrace()
         return
+
+    def findMatchingBrace(self):
+        position = self.codePointer
+        level = 0
+        if(self.code[position] == ']'):
+            direction = -1
+            position += direction
+            while self.code[position] != '[' or level != 0:
+                if(self.code[position] == ']'):
+                    level += 1
+                elif(self.code[position] == '['):
+                    level -= 1
+                position += direction
+        else:
+            direction = 1
+            position += direction
+            while self.code[position] != ']' or level != 0:
+                if(self.code[position] == '['):
+                    level += 1
+                elif(self.code[position] == ']'):
+                    level -= 1
+                position += direction
+
+        print '(' + str(position) + ' - ' + str(self.tape[self.cellPointer]) + ')',
+        
+        return position
