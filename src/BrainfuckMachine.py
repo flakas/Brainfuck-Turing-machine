@@ -94,6 +94,11 @@ class BrainfuckMachine:
                 elif(self.code[position] == ']'):
                     level -= 1
                 position += direction
-
-        
         return position
+
+if __name__ == "__main__":
+    """If used directly, run from command line"""
+    import sys
+    machine = BrainfuckMachine()
+    machine.setCode(sys.argv[1])
+    machine.run()
