@@ -7,6 +7,15 @@ Brainfuck is an esoteric programming language, it's noted for its extreme minima
 It was not made to be suitable for practical use, but it's designed to challenge and 
 amuse programmers.
 
+* `>` Increase the data pointer
+* `<` Decrease the data pointer
+* `+` Increment the byte at the data pointer
+* `-` Decrement the byte at the data pointer
+* `.` Output a character, the ASCII value of which being the byte at the data pointer
+* `,` Accept one byte of input, storing its value in the byte at the data pointer
+* `[` If the byte at the data pointer is zero, then instead of moving the instruction pointer forward to the next command, jump it forward to the command after matching `]` command
+* `]` If the byte at the data pointer is nonzero, then instead of moving the instruction pointer forward to the next command, jump it back to the command after the matching `[` command
+
 ## What is Turing machine? ##
 http://en.wikipedia.org/wiki/Turing_machine
 
