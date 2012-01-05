@@ -98,28 +98,22 @@ class BrainfuckMachine:
         level = 0
         if(self.code[position] == ']'):
             direction = -1
-            position += direction
-            while self.code[position] != '[' or level != 0:
-                if(position < 0):
-                    position = 0
-                    break
-                if(self.code[position] == ']'):
-                    level += 1
-                elif(self.code[position] == '['):
-                    level -= 1
-                position += direction
+            markerTarget = '['
+            markerSource = ']'
         else:
             direction = 1
+            markerTarget = ']'
+            markerSource = '['
+        position += direction
+        while self.code[position] != markerTarget or level != 0:
+            if(position < 0):
+                position = 0
+                break
+            if(self.code[position] == markerSource):
+                level += 1
+            elif(self.code[position] == markerTarget):
+                level -= 1
             position += direction
-            while self.code[position] != ']' or level != 0:
-                if(position < 0):
-                    position = 0
-                    break
-                if(self.code[position] == '['):
-                    level += 1
-                elif(self.code[position] == ']'):
-                    level -= 1
-                position += direction
         return position
 
 if __name__ == "__main__":
