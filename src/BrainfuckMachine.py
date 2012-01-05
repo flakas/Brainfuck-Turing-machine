@@ -7,11 +7,19 @@ class BrainfuckMachine:
         self.codePointer = 0
         self.code = ''
         self.loopTree = []
+        self.output = ''
 
     def setCode(self, code):
         """Pass code to the object"""
         self.code = code
         self.codeLength = len(self.code) - 1
+
+    def addOutput(self, content):
+        self.output += content
+        return
+
+    def getOutput(self):
+        return self.output
 
     def run(self):
         """Execute whole brainfuck code string"""
@@ -58,7 +66,7 @@ class BrainfuckMachine:
 
     def printPointer(self):
         """Prints current cell to the screen"""
-        print chr(self.tape[self.cellPointer]),
+        self.addOutput(chr(self.tape[self.cellPointer]))
         return
 
     def getPointer(self):
