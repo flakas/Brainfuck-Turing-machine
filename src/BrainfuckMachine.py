@@ -7,7 +7,7 @@ class BrainfuckMachine:
         self.tape = [0] * cells
         self.cellPointer = 0
         self.codePointer = 0
-        self.code = code
+        self.setCode(code)
         self.output = ''
 
     def setCode(self, code):
