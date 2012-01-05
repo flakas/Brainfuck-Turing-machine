@@ -1,12 +1,13 @@
 class BrainfuckMachine:
-    """Brainfuck interpreter"""
+    """Brainfuck Turing machine"""
 
-    def __init__(self):
-        self.tape = [0 for i in range(30000)] #Wiki recommends at least 30k cells
+    def __init__(self, cells = 30000, code = ''):
+        if(cells < 1):
+            cells = 1 # Force having at least one cell 
+        self.tape = [0] * cells
         self.cellPointer = 0
         self.codePointer = 0
-        self.code = ''
-        self.loopTree = []
+        self.code = code
         self.output = ''
 
     def setCode(self, code):
@@ -26,7 +27,7 @@ class BrainfuckMachine:
         self.codePointer = 0
         while self.codePointer < self.codeLength:
             self.doStep()
-        return
+        return self.output
     
     def doStep(self):
         """Parses current character, executes required command. If not 
@@ -52,20 +53,20 @@ class BrainfuckMachine:
     def movePointer(self, direction):
         """Moves pointer to the proper direction"""
         self.cellPointer += direction
-        return
+        return self.cellPointer
     
     def moveCodePointer(self, direction):
         """Moves code pointer to proper direction"""
         self.codePointer += direction
-        return
+        return self.codePointer
 
     def changeValue(self, action):
         """Increases or decreases current cell's value"""
         self.tape[self.cellPointer] += action
-        return
+        return self.tape[self.cellPointer]
 
     def printPointer(self):
-        """Prints current cell to the screen"""
+        """Adds current cell to the output"""
         self.addOutput(chr(self.tape[self.cellPointer]))
         return
 
@@ -75,7 +76,7 @@ class BrainfuckMachine:
         if len(c) <= 0: # Beware of being crashed
             c = ' '
         self.tape[self.cellPointer] = ord(c[0]) #Use only a single character
-        return
+        return c
 
     def loop(self):
         """Do a single loop step"""
@@ -99,6 +100,9 @@ class BrainfuckMachine:
             direction = -1
             position += direction
             while self.code[position] != '[' or level != 0:
+                if(position < 0):
+                    position = 0
+                    break
                 if(self.code[position] == ']'):
                     level += 1
                 elif(self.code[position] == '['):
@@ -108,6 +112,9 @@ class BrainfuckMachine:
             direction = 1
             position += direction
             while self.code[position] != ']' or level != 0:
+                if(position < 0):
+                    position = 0
+                    break
                 if(self.code[position] == '['):
                     level += 1
                 elif(self.code[position] == ']'):
